@@ -3,9 +3,9 @@ from jira import JIRA
 import os
 import datetime
 
-user = ******
-apikey = ******
-server = ******
+user = "******"
+apikey = "******"
+server = "******"
 
 
 def today_date():
