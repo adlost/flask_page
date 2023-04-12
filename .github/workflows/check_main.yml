@@ -33,7 +33,8 @@ jobs:
             
                 
         - name: Check docker build
-          run: docker build -t foo .       
+          run: docker build . --file Dockerfile --tag sup_page:${{github.ref_name}}
+     
           
         - name: Push to docker hub
           uses: docker/build-push-action/@v1
