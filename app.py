@@ -4,8 +4,8 @@ import os
 import datetime
 
 user = "******"
-apikey = "******"
-server = "******"
+apikey = "*****"
+server = "*****"
 
 
 def today_date():
