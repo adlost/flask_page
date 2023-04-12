@@ -57,4 +57,3 @@ jobs:
             repository: ${{secrets.DOCKERHUB_REPO}}
 
             push: true
-            tags: ${{ steps.metadata.outputs.tags }}
