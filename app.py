@@ -5,7 +5,7 @@ import datetime
 
 user = "******"
 apikey = "******"
-server = "******"
+server = "*****"
 
 
 def today_date():
