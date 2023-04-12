@@ -23,10 +23,10 @@ jobs:
             pip install -r requirements.txt
             
         - name: Check docker build
-          run: docker docker build -t foo
+          run: docker build -t foo
         
         - name: Check docker run
-          run: docker docker build -t foo          
+          run: docker build -t foo          
           
         - name: Push to docker hub
           uses: docker/build-push-action/@v1
