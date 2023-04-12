@@ -1,4 +1,4 @@
-name: Python Package
+name: Check Main
 
 on:
     push:
