@@ -1,23 +1,37 @@
-name: Pylint
+name: Python Package
 
-on: [push]
+on:
+    push:
+      branches: [ master ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.8"]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pylint
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
+    deploy:
+       runs-on: ubuntu-latest
+       strategy:
+         fail-fast: false
+         matrix:
+            python-version: [3.8]
+       steps:
+        - uses: actions/checkout@master
+        - name: Initialize Python 3.8
+          uses: actions/setup-python@v1
+          with:
+            python-version: ${{matrix.python-version}}
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+            
+        - name: Check docker build
+          run: docker docker build -t foo
+        
+        - name: Check docker run
+          run: docker docker build -t foo          
+          
+        - name: Push to docker hub
+          uses: docker/build-push-action/@v1
+          with:
+            username: ${{secrets.DOCKER_USERNAME}}
+            password: ${{secrets.DOCKER_PASSWORD}}
+            repository: ${{secrets.DOCKERHUB_REPO}}
+            tag_with_ref: true
