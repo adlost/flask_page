@@ -30,18 +30,43 @@ jobs:
             flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
             # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
             flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-            
-                
-        - name: Check docker build
-          run: docker build . --file Dockerfile --tag sup_page
-     
-          
-        - name: Push to docker hub
-          uses: docker/build-push-action/@v2
+
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0 # Without this, this action won't be able to find any or the correct tags.
+
+        - name: 'Get tag'
+          id: tag
+          uses: 'WyriHaximus/github-action-get-previous-tag@8a0e045f02c0a3a04e1452df58b90fc7e555e950'
+
+        - name: Set correct environment
+          run: |
+            TAG=${{ steps.tag.outputs.tag }}
+            echo "TAG=$TAG" >> "$GITHUB_ENV"
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+
+        - name: Retrieve metadata
+          id: metadata
+          uses: docker/metadata-action@e5622373a38e60fb6d795a4421e56882f2d7a681
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          with:
+            images: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+            tags: |
+              type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ env.TAG }}
+              type=semver,pattern={{major}}.{{minor}},value=${{ env.TAG }}
+              type=semver,pattern={{major}},value=${{ env.TAG }}
+
+        - name: Build and push
+          id: docker
+          uses: docker/build-push-action@v2
           with:
             username: ${{secrets.DOCKER_USERNAME}}
             password: ${{secrets.DOCKER_PASSWORD}}
             repository: ${{secrets.DOCKERHUB_REPO}}
+
             push: true
-            tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}
+            tags: ${{ steps.metadata.outputs.tags }}
