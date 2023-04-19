@@ -10,11 +10,11 @@ Tech stack:
 
 To run the project just enough:
 * Clone the project locally: 
-git clone https://github.com/adlost/flask_page.git
+{git clone https://github.com/adlost/flask_page.git}
 * Build an image: 
-docker build . --file Dockerfile --tag sup_page
-* Run it; 
-sudo docker run --name app1 -p 80:5000 sup_page
+{docker build . --file Dockerfile --tag sup_page}
+* Run it: 
+{sudo docker run --name app1 -p 80:5000 sup_page}
 
 * After web page should be availeble from browser: 
-http://localhost/
+{http://localhost/}
