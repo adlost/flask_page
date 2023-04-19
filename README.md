@@ -9,12 +9,12 @@ Tech stack:
 * Actions secrets to store sensitive data
 
 To run the project just enough:
-* Clone the project locally: 
-{git clone https://github.com/adlost/flask_page.git}
-* Build an image: 
-{docker build . --file Dockerfile --tag sup_page}
-* Run it: 
-{sudo docker run --name app1 -p 80:5000 sup_page}
+* Clone the project locally:<br>
+git clone https://github.com/adlost/flask_page.git
+* Build an image: <br>
+docker build . --file Dockerfile --tag sup_page
+* Run it: <br>
+sudo docker run --name app1 -p 80:5000 sup_page
 
-* After web page should be availeble from browser: 
-{http://localhost/}
+* After web page should be availeble from browser: <br>
+http://localhost/
